@@ -180,7 +180,7 @@ abstract class Base
         }
         if ($this->options->getOpt('help')) {
             echo $this->options->help();
-            exit(0);
+            doku_end_request(0);
         }
     }
 
@@ -270,7 +270,7 @@ abstract class Base
         }
 
         $this->logMessage('critical', $error, $context);
-        exit($code);
+        doku_end_request($code);
     }
 
     /**

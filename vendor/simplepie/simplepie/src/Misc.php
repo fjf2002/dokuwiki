@@ -2041,9 +2041,9 @@ class Misc
         if (function_exists('ob_gzhandler')) {
             ob_start('ob_gzhandler');
         }
-        header('Content-type: text/javascript; charset: UTF-8');
-        header('Cache-Control: must-revalidate');
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 604800) . ' GMT'); // 7 days
+        doku_header('Content-type: text/javascript; charset: UTF-8');
+        doku_header('Cache-Control: must-revalidate');
+        doku_header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 604800) . ' GMT'); // 7 days
 
         $body = <<<END
 function embed_quicktime(type, bgcolor, width, height, link, placeholder, loop) {

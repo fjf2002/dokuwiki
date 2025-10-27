@@ -690,7 +690,7 @@ class SimplePie
     public function __construct()
     {
         if (version_compare(PHP_VERSION, '7.2', '<')) {
-            exit('Please upgrade to PHP 7.2 or newer.');
+            doku_end_request('Please upgrade to PHP 7.2 or newer.');
         }
 
         $this->set_useragent();
@@ -1962,7 +1962,7 @@ class SimplePie
      *
      * This won't work properly if any content or whitespace has already been
      * sent to the browser, because it relies on PHP's
-     * {@link http://php.net/header header()} function, and these are the
+     * {@link http://php.net/header doku_header()} function, and these are the
      * circumstances under which the function works.
      *
      * Because it's setting these settings for the entire page (as is the nature
@@ -1980,7 +1980,7 @@ class SimplePie
             } else {
                 $header .= ' charset=UTF-8';
             }
-            header($header);
+            doku_header($header);
         }
     }
 
