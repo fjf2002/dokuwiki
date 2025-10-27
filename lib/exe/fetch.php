@@ -25,6 +25,8 @@ if (defined('SIMPLE_TEST')) {
 $mimetypes = getMimeTypes();
 
 //get input
+global $INPUT;
+
 $MEDIA = stripctl(getID('media', false)); // no cleaning except control chars - maybe external
 $CACHE = calc_cache($INPUT->str('cache'));
 $WIDTH = $INPUT->int('w');
@@ -84,7 +86,7 @@ if ($evt->advise_before()) {
     if ($data['status'] > 203) {
         echo $data['statusmessage'];
         if (defined('SIMPLE_TEST')) return;
-        exit;
+        doku_end_request();
     }
 }
 $evt->advise_after();

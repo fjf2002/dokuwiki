@@ -31,6 +31,8 @@ if (!actionOK('rss')) {
     exit;
 }
 
+global $INPUT;
+
 $options = new FeedCreatorOptions();
 
 // the feed is dynamic - we need a cache for each combo
