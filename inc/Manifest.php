@@ -77,7 +77,7 @@ class Manifest
 
         Event::createAndTrigger('MANIFEST_SEND', $manifest);
 
-        header('Content-Type: application/manifest+json');
+        doku_header('Content-Type: application/manifest+json');
         echo json_encode($manifest, JSON_THROW_ON_ERROR);
     }
 }

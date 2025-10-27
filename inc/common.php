@@ -1834,9 +1834,9 @@ function send_redirect($url)
         (preg_match('|^Microsoft-IIS/(\d)\.\d$|', trim($INPUT->server->str('SERVER_SOFTWARE')), $matches)) &&
         $matches[1] < 6
     ) {
-        header('Refresh: 0;url=' . $url);
+        doku_header('Refresh: 0;url=' . $url);
     } else {
-        header('Location: ' . $url);
+        doku_header('Location: ' . $url);
     }
 
     // no exits during unit tests
@@ -1849,7 +1849,7 @@ function send_redirect($url)
         return;
     }
 
-    exit;
+    doku_end_request();
 }
 
 /**

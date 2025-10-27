@@ -932,7 +932,7 @@ class JpegMeta {
         }
 
         if ($data != null) {
-            header("Content-type: image/jpeg");
+            doku_header("Content-type: image/jpeg");
             echo $data;
             return true;
         }

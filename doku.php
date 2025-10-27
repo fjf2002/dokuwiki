@@ -103,7 +103,7 @@ $INFO = pageinfo();
 // handle debugging
 if ($conf['allowdebug'] && $ACT == 'debug') {
     html_debug();
-    exit;
+    doku_end_request();
 }
 
 //send 404 for missing pages if configured or ID has special meaning to bots
@@ -112,7 +112,7 @@ if (
     ($conf['send404'] || preg_match('/^(robots\.txt|sitemap\.xml(\.gz)?|favicon\.ico|crossdomain\.xml)$/', $ID)) &&
     ($ACT == 'show' || (!is_array($ACT) && str_starts_with($ACT, 'export_')))
 ) {
-    header('HTTP/1.0 404 Not Found');
+    doku_header('HTTP/1.0 404 Not Found');
 }
 
 //prepare breadcrumbs (initialize a static var)

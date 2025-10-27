@@ -8,5 +8,5 @@ require_once(DOKU_INC . 'inc/init.php');
 require_once(DOKU_INC . 'inc/jquery.php');
 
 // MAIN
-header('Content-Type: application/javascript; charset=utf-8');
+doku_header('Content-Type: application/javascript; charset=utf-8');
 jquery_out();

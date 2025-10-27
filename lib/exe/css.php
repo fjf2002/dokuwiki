@@ -16,6 +16,6 @@ require_once(DOKU_INC . 'inc/css.php');
 
 // Main (don't run when UNIT test)
 if (!defined('SIMPLE_TEST')) {
-    header('Content-Type: text/css; charset=utf-8');
+    doku_header('Content-Type: text/css; charset=utf-8');
     css_out();
 }

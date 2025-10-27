@@ -17,7 +17,7 @@ require_once(DOKU_INC . 'inc/init.php');
 session_write_close();
 
 // default header, ajax call may overwrite it later
-header('Content-Type: text/html; charset=utf-8');
+doku_header('Content-Type: text/html; charset=utf-8');
 
 //call the requested function
 global $INPUT;

@@ -19,7 +19,7 @@ class Preview extends Edit
     /** @inheritdoc */
     public function preProcess()
     {
-        header('X-XSS-Protection: 0');
+        doku_header('X-XSS-Protection: 0');
         $this->savedraft();
         parent::preProcess();
     }

@@ -1,5 +1,5 @@
 # users.auth.php
-# <?php exit()?>
+# <?php doku_end_request()?>
 # Don't modify the lines above
 #
 # Userfile

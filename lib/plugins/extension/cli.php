@@ -115,7 +115,7 @@ class cli_plugin_extension extends CLIPlugin
                 $ret = 0;
         }
 
-        exit($ret);
+        doku_end_request($ret);
     }
 
     /**

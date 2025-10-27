@@ -40,7 +40,7 @@ class TaskRunner
         if (!$output) {
             ob_start();
         } else {
-            header('Content-Type: text/plain');
+            doku_header('Content-Type: text/plain');
         }
 
         // run one of the jobs
@@ -76,9 +76,9 @@ class TaskRunner
     protected function sendGIF()
     {
         $img = base64_decode('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7');
-        header('Content-Type: image/gif');
-        header('Content-Length: ' . strlen($img));
-        header('Connection: Close');
+        doku_header('Content-Type: image/gif');
+        doku_header('Content-Length: ' . strlen($img));
+        doku_header('Connection: Close');
         echo $img;
         tpl_flush();
         // Browser should drop connection after this

@@ -34,6 +34,6 @@ class Headers
             }
         }
 
-        header($cspheader);
+        doku_header($cspheader);
     }
 }

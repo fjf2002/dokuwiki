@@ -63,7 +63,7 @@ if (isset($_FILES['Filedata'])) {
         echo 'Upload failed';
     }
     echo 'ok';
-    exit;
+    doku_end_request();
 }
 
 // give info on PHP caught upload errors
@@ -126,6 +126,6 @@ if ($DEL) {
 // finished - start output
 
 if (!$fullscreen) {
-    header('Content-Type: text/html; charset=utf-8');
+    doku_header('Content-Type: text/html; charset=utf-8');
     include(template('mediamanager.php'));
 }

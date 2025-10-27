@@ -41,7 +41,7 @@ if ($LC && $LC != 'en') {
 $error = [];
 
 // begin output
-header('Content-Type: text/html; charset=utf-8');
+doku_header('Content-Type: text/html; charset=utf-8');
 ?>
     <!DOCTYPE html>
     <html lang="<?php echo $LC ?>" dir="<?php echo $lang['direction'] ?>">
@@ -418,7 +418,7 @@ EOT;
         // create users.auth.php
         $output = <<<EOT
 # users.auth.php
-# <?php exit()?>
+# <?php doku_end_request()?>
 # Don't modify the lines above
 #
 # Userfile
@@ -443,7 +443,7 @@ EOT;
         // create acl.auth.php
         $output = <<<EOT
 # acl.auth.php
-# <?php exit()?>
+# <?php doku_end_request()?>
 # Don't modify the lines above
 #
 # Access Control Lists

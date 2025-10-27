@@ -49,11 +49,26 @@ if (!defined('DOKU_E_LEVEL')) {
     error_reporting(DOKU_E_LEVEL);
 }
 
+
+if (!function_exists('doku_header')) {
+    function doku_header(string $header, bool $replace = true, int $response_code = 0): void {
+        doku_header($header, $replace, $response_code);
+    }
+}
+
+if (!function_exists('doku_end_request')) {
+    function doku_end_request(string|int $status = 0): never {
+        doku_end_request($status);
+    }
+}
+
+
+
 // autoloader
 require_once(DOKU_INC . 'inc/load.php');
 
 // avoid caching issues #1594
-header('Vary: Cookie');
+doku_header('Vary: Cookie');
 
 // init memory caches
 global $cache_revinfo;
@@ -560,7 +575,7 @@ EOT;
     if (defined('DOKU_UNITTEST')) {
         throw new RuntimeException('nice_die: ' . $msg);
     }
-    exit(1);
+    doku_end_request(1);
 }
 
 /**

@@ -86,7 +86,7 @@ class cli_plugin_usermanager extends CLIPlugin
                 $ret = 0;
         }
 
-        exit($ret);
+        doku_end_request($ret);
     }
 
     /**

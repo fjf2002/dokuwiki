@@ -10,7 +10,7 @@ require_once(DOKU_INC . 'inc/init.php');
 
 if (!actionOK('manifest')) {
     http_status(404, 'Manifest has been disabled in DokuWiki configuration.');
-    exit();
+    doku_end_request();
 }
 
 $manifest = new Manifest();

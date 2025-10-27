@@ -45,7 +45,7 @@ class action_plugin_extension extends ActionPlugin
         if (!$admin->isAccessibleByCurrentUser()) {
             http_status(403);
             echo 'Forbidden';
-            exit;
+            doku_end_request();
         }
 
         $ext = $INPUT->str('ext');
@@ -70,7 +70,7 @@ class action_plugin_extension extends ActionPlugin
             return;
         }
 
-        header('Content-Type: text/html; charset=utf-8');
+        doku_header('Content-Type: text/html; charset=utf-8');
         echo (new GuiExtension($extension))->render();
     }
 }

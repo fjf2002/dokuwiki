@@ -7,7 +7,7 @@ if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../');
 require_once(DOKU_INC . 'inc/init.php');
 session_write_close();  //close session
 
-header('Content-Type: application/json');
+doku_header('Content-Type: application/json');
 
 $server = new JsonRpcServer();
 try {

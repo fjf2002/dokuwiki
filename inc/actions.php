@@ -33,13 +33,13 @@ function act_dispatch()
 }
 
 /**
- * Send the given headers using header()
+ * Send the given headers using doku_header()
  *
  * @param array $headers The headers that shall be sent
  */
 function act_sendheaders($headers)
 {
-    foreach ($headers as $hdr) header($hdr);
+    foreach ($headers as $hdr) doku_header($hdr);
 }
 
 /**
