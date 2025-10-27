@@ -29,5 +29,8 @@
         "ext-mbstring": "The mbstring extension is highly recommended to speed up all UTF-8 handling",
         "ext-intl": "The intl extension allows for better locale specific sorting"
     },
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require-dev": {
+        "openswoole/ide-helper": "^22.1"
+    }
 }

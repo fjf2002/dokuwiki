@@ -3,7 +3,7 @@
         'name' => 'dokuwiki/dokuwiki',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '396ae2b1e4ac18cd8a3de8ba055f983a807687dc',
+        'reference' => '43078c3aa24f8ca49625ee4498b6eea2a58d346c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'dokuwiki/dokuwiki' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '396ae2b1e4ac18cd8a3de8ba055f983a807687dc',
+            'reference' => '43078c3aa24f8ca49625ee4498b6eea2a58d346c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -57,6 +57,15 @@
             'install_path' => __DIR__ . '/../openpsa/universalfeedcreator',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'openswoole/ide-helper' => array(
+            'pretty_version' => '22.1.5',
+            'version' => '22.1.5.0',
+            'reference' => '8c4de5fda9fec1b00c549a9f688163733199e712',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../openswoole/ide-helper',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'paragonie/constant_time_encoding' => array(
             'pretty_version' => 'v2.7.0',
