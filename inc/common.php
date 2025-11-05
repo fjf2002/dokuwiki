@@ -1818,7 +1818,7 @@ function send_redirect($url)
 
     //are there any undisplayed messages? keep them in session for display
     global $MSG;
-    if (isset($MSG) && count($MSG) && !defined('NOSESSION')) {
+    if (isset($MSG) && count($MSG) /* FJF unsolved: && !defined('SESSION')*/) {
         //reopen session, store data and close session again
         @session_start();
         $_SESSION[DOKU_COOKIE]['msg'] = $MSG;

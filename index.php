@@ -18,6 +18,7 @@
 if (PHP_SAPI != 'cli-server') {
     if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/');
     require_once(DOKU_INC . 'inc/init.php');
+    init_request();
 
     send_redirect(wl($conf['start']));
 }

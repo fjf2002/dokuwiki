@@ -6,8 +6,8 @@ use splitbrain\phpcli\Options;
 use dokuwiki\Utf8\PhpString;
 
 if (!defined('DOKU_INC')) define('DOKU_INC', realpath(__DIR__ . '/../') . '/');
-define('NOSESSION', 1);
 require_once(DOKU_INC . 'inc/init.php');
+init_request(noSession: true);
 
 /**
  * Checkout and commit pages from the command line while maintaining the history

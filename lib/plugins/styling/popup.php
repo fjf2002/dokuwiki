@@ -2,6 +2,7 @@
 // phpcs:disable PSR1.Files.SideEffects
 if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../../');
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 //close session
 session_write_close();
 header('Content-Type: text/html; charset=utf-8');

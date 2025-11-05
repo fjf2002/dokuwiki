@@ -10,9 +10,9 @@
  */
 
 if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../');
-if (!defined('NOSESSION')) define('NOSESSION', true); // we do not use a session or authentication here (better caching)
 if (!defined('NL')) define('NL', "\n");
 require_once(DOKU_INC . 'inc/init.php');
+init_request(noSession: true); // we do not use a session or authentication here (better caching)
 
 // try to be clever about the favicon location
 if (file_exists(DOKU_INC . 'favicon.ico')) {

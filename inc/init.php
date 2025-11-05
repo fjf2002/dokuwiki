@@ -10,6 +10,16 @@ use dokuwiki\Input\Input;
 use dokuwiki\Extension\Event;
 use dokuwiki\Extension\EventHandler;
 
+
+// FJF - use plain old PHP exit() function if no dedicated doku_end_request() implementation is available
+if (!function_exists('doku_end_request')) {
+    function doku_end_request(string|int $status = 0): never {
+        exit($status);
+    }
+}
+
+// FJF - timing won't work with workers
+
 /**
  * timing Dokuwiki execution
  *
@@ -52,8 +62,11 @@ if (!defined('DOKU_E_LEVEL')) {
 // autoloader
 require_once(DOKU_INC . 'inc/load.php');
 
-// avoid caching issues #1594
-header('Vary: Cookie');
+// FJ workaround for Ip::hostName:
+global $INPUT;
+$INPUT = new Input();
+
+
 
 // init memory caches
 global $cache_revinfo;
@@ -110,13 +123,6 @@ foreach (['default', 'local'] as $config_group) {
 date_default_timezone_set(@date_default_timezone_get());
 
 
-// don't let cookies ever interfere with request vars
-$_REQUEST = array_merge($_GET, $_POST);
-// input handle class
-global $INPUT;
-$INPUT = new Input();
-
-
 // define baseURL
 if (!defined('DOKU_REL')) define('DOKU_REL', getBaseURL(false));
 if (!defined('DOKU_URL')) define('DOKU_URL', getBaseURL(true));
@@ -168,45 +174,6 @@ if (!defined('DOKU_TPLINC')) {
 // increase PCRE backtrack limit
 @ini_set('pcre.backtrack_limit', '20971520');
 
-// enable gzip compression if supported
-$httpAcceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? '';
-$conf['gzip_output'] &= (strpos($httpAcceptEncoding, 'gzip') !== false);
-global $ACT;
-if (
-    $conf['gzip_output'] &&
-        !defined('DOKU_DISABLE_GZIP_OUTPUT') &&
-        function_exists('ob_gzhandler') &&
-        // Disable compression when a (compressed) sitemap might be delivered
-        // See https://bugs.dokuwiki.org/index.php?do=details&task_id=2576
-        $ACT != 'sitemap'
-) {
-    ob_start('ob_gzhandler');
-}
-
-// init session
-if (!headers_sent() && !defined('NOSESSION')) {
-    if (!defined('DOKU_SESSION_NAME'))     define('DOKU_SESSION_NAME', "DokuWiki");
-    if (!defined('DOKU_SESSION_LIFETIME')) define('DOKU_SESSION_LIFETIME', 0);
-    if (!defined('DOKU_SESSION_PATH')) {
-        $cookieDir = empty($conf['cookiedir']) ? DOKU_REL : $conf['cookiedir'];
-        define('DOKU_SESSION_PATH', $cookieDir);
-    }
-    if (!defined('DOKU_SESSION_DOMAIN'))   define('DOKU_SESSION_DOMAIN', '');
-
-    // start the session
-    init_session();
-
-    // load left over messages
-    if (isset($_SESSION[DOKU_COOKIE]['msg'])) {
-        $MSG = $_SESSION[DOKU_COOKIE]['msg'];
-        unset($_SESSION[DOKU_COOKIE]['msg']);
-    }
-}
-
-
-// we don't want a purge URL to be digged
-if (isset($_REQUEST['purge']) && !empty($_SERVER['HTTP_REFERER'])) unset($_REQUEST['purge']);
-
 
 // setup plugin controller class (can be overwritten in preload.php)
 global $plugin_controller_class, $plugin_controller;
@@ -235,17 +202,6 @@ $EVENT_HANDLER = new EventHandler();
 $local = $conf['lang'];
 Event::createAndTrigger('INIT_LANG_LOAD', $local, 'init_lang', true);
 
-
-// setup authentication system
-if (!defined('NOSESSION')) {
-    auth_setup();
-}
-
-// setup mail system
-mail_setup();
-
-$nil = null;
-Event::createAndTrigger('DOKUWIKI_INIT_DONE', $nil, null, false);
 
 /**
  * Initializes the session
@@ -560,7 +516,7 @@ EOT;
     if (defined('DOKU_UNITTEST')) {
         throw new RuntimeException('nice_die: ' . $msg);
     }
-    exit(1);
+    doku_end_request(1);
 }
 
 /**
@@ -628,4 +584,63 @@ function fullpath($path, $exists = false)
         return false;
     }
     return $finalpath;
+}
+
+function init_request(bool $noSession = false) {
+    global $INPUT, $conf, $ACT;
+
+    // avoid caching issues #1594
+    header('Vary: Cookie');
+
+    // input handle class
+    $INPUT = new Input();
+
+    // enable gzip compression if supported
+    $httpAcceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? '';
+    $conf['gzip_output'] &= (strpos($httpAcceptEncoding, 'gzip') !== false);
+    if (
+        $conf['gzip_output'] &&
+            !defined('DOKU_DISABLE_GZIP_OUTPUT') &&
+            function_exists('ob_gzhandler') &&
+            // Disable compression when a (compressed) sitemap might be delivered
+            // See https://bugs.dokuwiki.org/index.php?do=details&task_id=2576
+            $ACT != 'sitemap'
+    ) {
+        ob_start('ob_gzhandler');
+    }
+
+    // init session
+    if (!headers_sent() && !$noSession) {
+        if (!defined('DOKU_SESSION_NAME'))     define('DOKU_SESSION_NAME', "DokuWiki");
+        if (!defined('DOKU_SESSION_LIFETIME')) define('DOKU_SESSION_LIFETIME', 0);
+        if (!defined('DOKU_SESSION_PATH')) {
+            $cookieDir = empty($conf['cookiedir']) ? DOKU_REL : $conf['cookiedir'];
+            define('DOKU_SESSION_PATH', $cookieDir);
+        }
+        if (!defined('DOKU_SESSION_DOMAIN'))   define('DOKU_SESSION_DOMAIN', '');
+
+        // start the session
+        init_session();
+
+        // load left over messages
+        if (isset($_SESSION[DOKU_COOKIE]['msg'])) {
+            $MSG = $_SESSION[DOKU_COOKIE]['msg'];
+            unset($_SESSION[DOKU_COOKIE]['msg']);
+        }
+    }
+
+    // we don't want a purge URL to be digged
+    if (isset($_REQUEST['purge']) && !empty($_SERVER['HTTP_REFERER'])) unset($_REQUEST['purge']);
+
+
+    // setup authentication system
+    if (!$noSession) {
+        auth_setup();
+    }
+
+    // setup mail system
+    mail_setup(); // FJF - mail_setup is dependent on logged-in user
+
+    $nil = null;
+    Event::createAndTrigger('DOKUWIKI_INIT_DONE', $nil, null, false);
 }

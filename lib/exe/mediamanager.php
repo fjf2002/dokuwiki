@@ -9,6 +9,7 @@ define('DOKU_MEDIAMANAGER', 1);
 @ini_set('session.use_only_cookies', 0);
 
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 
 global $INPUT;
 global $lang;

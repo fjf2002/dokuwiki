@@ -5,6 +5,7 @@ use dokuwiki\Remote\JsonRpcServer;
 if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../');
 
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 session_write_close();  //close session
 
 header('Content-Type: application/json');

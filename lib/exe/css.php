@@ -13,10 +13,10 @@ use dokuwiki\Cache\Cache;
 use dokuwiki\Extension\Event;
 
 if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../');
-if (!defined('NOSESSION')) define('NOSESSION', true); // we do not use a session or authentication here (better caching)
 if (!defined('DOKU_DISABLE_GZIP_OUTPUT')) define('DOKU_DISABLE_GZIP_OUTPUT', 1); // we gzip ourself here
 if (!defined('NL')) define('NL', "\n");
 require_once(DOKU_INC . 'inc/init.php');
+init_request(noSession: true); // we do not use a session or authentication here (better caching)
 
 // Main (don't run when UNIT test)
 if (!defined('SIMPLE_TEST')) {

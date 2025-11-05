@@ -9,6 +9,7 @@ if (!defined('DOKU_MEDIADETAIL')) define('DOKU_MEDIADETAIL', 1);
 global $INPUT, $INFO, $IMG, $ID, $REV, $SRC, $ERROR, $AUTH;
 
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 
 $IMG = getID('media');
 $ID = cleanID($INPUT->str('id'));

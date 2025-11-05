@@ -4,6 +4,7 @@ use dokuwiki\Remote\OpenApiDoc\OpenAPIGenerator;
 
 if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../');
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 global $INPUT;
 
 if ($INPUT->has('spec')) {

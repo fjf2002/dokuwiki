@@ -18,6 +18,7 @@ if (!defined('DOKU_LOCAL')) define('DOKU_LOCAL', DOKU_INC . 'conf/');
 
 // load and initialize the core system
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 require_once(DOKU_INC . 'inc/pageutils.php');
 
 // check for error reporting override or set error reporting to sane values

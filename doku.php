@@ -24,6 +24,9 @@ global $ACT, $INPUT, $QUERY, $ID, $REV, $DATE_AT, $IDX,
        $DATE, $RANGE, $HIGH, $TEXT, $PRE, $SUF, $SUM, $INFO, $JSINFO;
 
 
+// don't let cookies ever interfere with request vars
+$_REQUEST = array_merge($_GET, $_POST);
+
 if (isset($_SERVER['HTTP_X_DOKUWIKI_DO'])) {
     $ACT = trim(strtolower($_SERVER['HTTP_X_DOKUWIKI_DO']));
 } elseif (!empty($_REQUEST['idx'])) {
@@ -36,6 +39,7 @@ if (isset($_SERVER['HTTP_X_DOKUWIKI_DO'])) {
 
 // load and initialize the core system
 require_once(DOKU_INC . 'inc/init.php');
+init_request();
 
 //import variables
 $INPUT->set('id', str_replace("\xC2\xAD", '', $INPUT->str('id'))); //soft-hyphen
