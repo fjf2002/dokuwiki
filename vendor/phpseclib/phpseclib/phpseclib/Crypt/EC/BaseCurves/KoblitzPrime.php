@@ -83,7 +83,7 @@ class KoblitzPrime extends Prime
                 $inv->subtract($s)
             ];
             $this->beta = $betas[0]->compare($betas[1]) < 0 ? $betas[0] : $betas[1];
-            //echo strtoupper($this->beta->toHex(true)) . "\n"; exit;
+            //echo strtoupper($this->beta->toHex(true)) . "\n"; doku_end_request();
         }
 
         if (!isset($this->basis)) {
@@ -110,7 +110,7 @@ class KoblitzPrime extends Prime
                 echo strtoupper($basis['a']->toHex(true)) . "\n";
                 echo strtoupper($basis['b']->toHex(true)) . "\n\n";
             }
-            exit;
+            doku_end_request();
             //*/
         }
 

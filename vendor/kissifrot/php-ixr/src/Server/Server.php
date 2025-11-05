@@ -124,7 +124,7 @@ EOD;
         header('Content-Type: text/xml');
         header('Date: ' . date('r'));
         echo $xml;
-        exit;
+        doku_end_request();
     }
 
     protected function hasMethod($method)

@@ -12,7 +12,7 @@
  *
  *    $ssh = new \phpseclib3\Net\SSH2('www.domain.tld');
  *    if (!$ssh->login('username', 'password')) {
- *        exit('Login Failed');
+ *        doku_end_request('Login Failed');
  *    }
  *
  *    echo $ssh->exec('pwd');
@@ -28,7 +28,7 @@
  *
  *    $ssh = new \phpseclib3\Net\SSH2('www.domain.tld');
  *    if (!$ssh->login('username', $key)) {
- *        exit('Login Failed');
+ *        doku_end_request('Login Failed');
  *    }
  *
  *    echo $ssh->read('username@username:~$');

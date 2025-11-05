@@ -16,7 +16,7 @@
  *
  *    $ssh = new \phpseclib3\Net\SSH2('www.domain.tld');
  *    if (!$ssh->login('username', $agent)) {
- *        exit('Login Failed');
+ *        doku_end_request('Login Failed');
  *    }
  *
  *    echo $ssh->exec('pwd');

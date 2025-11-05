@@ -53,7 +53,7 @@ function http_conditionalRequest($timestamp)
 
     // don't produce output, even if compression is on
     @ob_end_clean();
-    exit;
+    doku_end_request();
 }
 
 /**
@@ -72,17 +72,17 @@ function http_sendfile($file)
     if ($conf['xsendfile'] == 1) {
         header("X-LIGHTTPD-send-file: $file");
         ob_end_clean();
-        exit;
+        doku_end_request();
     } elseif ($conf['xsendfile'] == 2) {
         header("X-Sendfile: $file");
         ob_end_clean();
-        exit;
+        doku_end_request();
     } elseif ($conf['xsendfile'] == 3) {
         // FS#2388 nginx just needs the relative path.
         $file = DOKU_REL . substr($file, strlen(fullpath(DOKU_INC)) + 1);
         header("X-Accel-Redirect: $file");
         ob_end_clean();
-        exit;
+        doku_end_request();
     }
 }
 
@@ -126,7 +126,7 @@ function http_rangeRequest($fh, $size, $mime)
                 if ($start > $end || $start > $size || $end > $size) {
                     header('HTTP/1.1 416 Requested Range Not Satisfiable');
                     echo 'Bad Range Request!';
-                    exit;
+                    doku_end_request();
                 }
                 $len = $end - $start + 1;
                 $ranges[] = [$start, $end, $len];
@@ -181,7 +181,7 @@ function http_rangeRequest($fh, $size, $mime)
 
     // everything should be done here, exit (or return if testing)
     if (defined('SIMPLE_TEST')) return;
-    exit;
+    doku_end_request();
 }
 
 /**
@@ -238,7 +238,7 @@ function http_cached($cache, $cache_ok)
             http_sendfile($cache);
             readfile($cache);
         }
-        exit;
+        doku_end_request();
     }
 
     http_conditionalRequest(time());

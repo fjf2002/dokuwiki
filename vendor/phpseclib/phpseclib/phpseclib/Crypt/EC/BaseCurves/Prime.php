@@ -668,7 +668,7 @@ class Prime extends Base
             $str.= "            ['$re[0]', '$re[1]'],\r\n";
         }
         file_put_contents('temp.txt', $str);
-        exit;
+        doku_end_request();
         */
 
         return $res;

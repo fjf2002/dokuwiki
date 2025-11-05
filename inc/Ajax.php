@@ -417,7 +417,7 @@ class Ajax
 
         if (!count($data)) {
             echo $lang['nothingfound'];
-            exit;
+            doku_end_request();
         }
 
         // output the found data

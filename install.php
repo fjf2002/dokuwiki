@@ -419,7 +419,7 @@ EOT;
         // create users.auth.php
         $output = <<<EOT
 # users.auth.php
-# <?php exit()?>
+# <?php doku_end_request()?>
 # Don't modify the lines above
 #
 # Userfile
@@ -444,7 +444,7 @@ EOT;
         // create acl.auth.php
         $output = <<<EOT
 # acl.auth.php
-# <?php exit()?>
+# <?php doku_end_request()?>
 # Don't modify the lines above
 #
 # Access Control Lists

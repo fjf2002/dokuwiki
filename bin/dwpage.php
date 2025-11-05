@@ -286,7 +286,7 @@ class PageCLI extends CLI
 
         if (checklock($wiki_id)) {
             $this->error("Page $wiki_id is already locked by another user");
-            exit(1);
+            doku_end_request(1);
         }
 
         lock($wiki_id);
@@ -294,7 +294,7 @@ class PageCLI extends CLI
         if (checklock($wiki_id)) {
             $this->error("Unable to obtain lock for $wiki_id ");
             var_dump(checklock($wiki_id));
-            exit(1);
+            doku_end_request(1);
         }
     }
 
@@ -310,14 +310,14 @@ class PageCLI extends CLI
         $_SERVER['REMOTE_USER'] = $this->username;
         if (checklock($wiki_id)) {
             $this->error("Page $wiki_id is locked by another user");
-            exit(1);
+            doku_end_request(1);
         }
 
         unlock($wiki_id);
 
         if (file_exists(wikiLockFN($wiki_id))) {
             $this->error("Unable to clear lock for $wiki_id");
-            exit(1);
+            doku_end_request(1);
         }
     }
 
@@ -333,7 +333,7 @@ class PageCLI extends CLI
         if (file_exists($wikiLockFN)) {
             if (!unlink($wikiLockFN)) {
                 $this->error("Unable to delete $wikiLockFN");
-                exit(1);
+                doku_end_request(1);
             }
         }
     }

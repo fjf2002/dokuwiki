@@ -40,7 +40,7 @@ class Doku_Renderer_code extends Doku_Renderer
             header("Content-Disposition: attachment; filename=$filename");
             header("X-Robots-Tag: noindex");
             echo trim($text, "\r\n");
-            exit;
+            doku_end_request();
         }
 
         $this->_codeblock++;
@@ -65,7 +65,7 @@ class Doku_Renderer_code extends Doku_Renderer
     {
         http_status(404);
         echo '404 - Not found';
-        exit;
+        doku_end_request();
     }
 
     /**

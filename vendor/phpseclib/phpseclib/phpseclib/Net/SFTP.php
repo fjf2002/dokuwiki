@@ -16,7 +16,7 @@
  *
  *    $sftp = new \phpseclib3\Net\SFTP('www.domain.tld');
  *    if (!$sftp->login('username', 'password')) {
- *        exit('Login Failed');
+ *        doku_end_request('Login Failed');
  *    }
  *
  *    echo $sftp->pwd() . "\r\n";

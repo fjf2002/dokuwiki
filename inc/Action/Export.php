@@ -109,7 +109,7 @@ class Export extends AbstractAction
                 header("$key: $val");
             }
             echo $pre . $data['output'] . $post;
-            exit;
+            doku_end_request();
         }
 
         throw new ActionAbort();

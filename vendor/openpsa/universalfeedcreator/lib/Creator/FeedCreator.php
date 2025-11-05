@@ -218,7 +218,7 @@ abstract class FeedCreator extends HtmlDescribable
             header("Content-Disposition: inline; filename=".basename($filename));
         }
         readfile($filename);
-        exit();
+        doku_end_request();
     }
 
     /**

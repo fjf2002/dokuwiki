@@ -64,7 +64,7 @@ if (isset($_FILES['Filedata'])) {
         echo 'Upload failed';
     }
     echo 'ok';
-    exit;
+    doku_end_request();
 }
 
 // give info on PHP caught upload errors

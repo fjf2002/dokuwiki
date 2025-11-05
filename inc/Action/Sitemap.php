@@ -60,7 +60,7 @@ class Sitemap extends AbstractAction
             http_sendfile($sitemap);
 
             readfile($sitemap);
-            exit;
+            doku_end_request();
         }
 
         throw new FatalException('Could not read the sitemap file - bad permissions?');

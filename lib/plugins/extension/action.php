@@ -45,7 +45,7 @@ class action_plugin_extension extends ActionPlugin
         if (!$admin->isAccessibleByCurrentUser()) {
             http_status(403);
             echo 'Forbidden';
-            exit;
+            doku_end_request();
         }
 
         $ext = $INPUT->str('ext');

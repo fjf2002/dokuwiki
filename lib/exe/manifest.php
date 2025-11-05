@@ -10,7 +10,7 @@ init_request(noSession: true); // no session or auth required here
 
 if (!actionOK('manifest')) {
     http_status(404, 'Manifest has been disabled in DokuWiki configuration.');
-    exit();
+    doku_end_request();
 }
 
 $manifest = new Manifest();

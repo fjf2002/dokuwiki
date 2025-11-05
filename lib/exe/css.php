@@ -254,7 +254,7 @@ function css_parseless($css)
             padding: 0.5em;
         }";
 
-        exit;
+        doku_end_request();
     }
 }
 

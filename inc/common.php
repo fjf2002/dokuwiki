@@ -1849,7 +1849,7 @@ function send_redirect($url)
         return;
     }
 
-    exit;
+    doku_end_request();
 }
 
 /**

@@ -107,7 +107,7 @@ $INFO = pageinfo();
 // handle debugging
 if ($conf['allowdebug'] && $ACT == 'debug') {
     html_debug();
-    exit;
+    doku_end_request();
 }
 
 //send 404 for missing pages if configured or ID has special meaning to bots

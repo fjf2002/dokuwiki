@@ -690,7 +690,7 @@ class SimplePie
     public function __construct()
     {
         if (version_compare(PHP_VERSION, '7.2', '<')) {
-            exit('Please upgrade to PHP 7.2 or newer.');
+            doku_end_request('Please upgrade to PHP 7.2 or newer.');
         }
 
         $this->set_useragent();

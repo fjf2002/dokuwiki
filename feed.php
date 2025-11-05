@@ -29,7 +29,7 @@ session_write_close();
 if (!actionOK('rss')) {
     http_status(404);
     echo '<error>RSS feed is disabled.</error>';
-    exit;
+    doku_end_request();
 }
 
 $options = new FeedCreatorOptions();
@@ -59,7 +59,7 @@ if ($cache->useCache($depends)) {
     http_conditionalRequest($cache->getTime());
     if ($conf['allowdebug']) header("X-CacheUsed: $cache->cache");
     echo $cache->retrieveCache();
-    exit;
+    doku_end_request();
 } else {
     http_conditionalRequest(time());
 }
@@ -72,5 +72,5 @@ try {
 } catch (Exception $e) {
     http_status(500);
     echo '<error>' . hsc($e->getMessage()) . '</error>';
-    exit;
+    doku_end_request();
 }

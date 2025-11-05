@@ -11,7 +11,7 @@ if ($INPUT->has('spec')) {
     header('Content-Type: application/json');
     $apigen = new OpenAPIGenerator();
     echo $apigen->generate();
-    exit();
+    doku_end_request();
 }
 ?>
 <!doctype html>
