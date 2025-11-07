@@ -1,0 +1,26 @@
+services:
+  frankenwiki:
+    build: .
+    ports:
+      - 8080:8080
+      # - 8443:8443
+    volumes:
+      # https://frankenphp.dev/docs/config/
+      - type: bind
+        source: ./Caddyfile
+        target: /etc/frankenphp/Caddyfile
+      - type: bind
+        source: .
+        target: /app/public
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+#     secrets:
+#       - server.crt
+#       - server.key
+
+
+# secrets:
+#   server.crt:
+#     file: ./secrets/server.crt
+#   server.key:
+#     file: ./secrets/server.key

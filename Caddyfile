@@ -1,0 +1,30 @@
+{
+	auto_https off
+
+	frankenphp {
+		php_ini {
+			xdebug.mode develop,debug
+			xdebug.start_with_request yes
+			xdebug.client_host host.docker.internal
+			xdebug.client_port 9003
+		}
+	}
+}
+
+# https://frankenphp.dev/docs/config/
+# :8443 {
+# 	tls /run/secrets/server.crt /run/secrets/server.key
+
+:8080 {
+	root .
+
+	php_server {
+		root /app/public # allows for better caching
+
+		worker {
+			file /app/public/frankenphp_worker.php
+			num 1
+			watch
+			match *.php
+		}
+	}
