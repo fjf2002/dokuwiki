@@ -18,6 +18,7 @@ session_write_close(); //close session
 
 require_once(DOKU_INC . 'inc/fetch.functions.php');
 
+global $INPUT;
 if (defined('SIMPLE_TEST')) {
     $INPUT = new Input();
 }
