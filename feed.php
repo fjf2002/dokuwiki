@@ -51,13 +51,13 @@ $depends['purge'] = $INPUT->bool('purge');
 
 // check cacheage and deliver if nothing has changed since last
 // time or the update interval has not passed, also handles conditional requests
-header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-header('Pragma: public');
-header('Content-Type: ' . $options->getMimeType());
-header('X-Robots-Tag: noindex');
+doku_header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+doku_header('Pragma: public');
+doku_header('Content-Type: ' . $options->getMimeType());
+doku_header('X-Robots-Tag: noindex');
 if ($cache->useCache($depends)) {
     http_conditionalRequest($cache->getTime());
-    if ($conf['allowdebug']) header("X-CacheUsed: $cache->cache");
+    if ($conf['allowdebug']) doku_header("X-CacheUsed: $cache->cache");
     echo $cache->retrieveCache();
     doku_end_request();
 } else {

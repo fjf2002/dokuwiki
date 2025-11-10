@@ -15,7 +15,7 @@ define('HTTP_CHUNK_SIZE', 16 * 1024);
  * Checks and sets HTTP headers for conditional HTTP requests
  *
  * @param int $timestamp lastmodified time of the cache file
- * @returns  void or exits with previously header() commands executed
+ * @returns  void or exits with previously doku_header() commands executed
  * @link     http://simonwillison.net/2003/Apr/23/conditionalGet/
  *
  * @author   Simon Willison <swillison@gmail.com>
@@ -29,8 +29,8 @@ function http_conditionalRequest($timestamp)
     $last_modified = substr(gmdate('r', $timestamp), 0, -5) . 'GMT';
     $etag = '"' . md5($last_modified) . '"';
     // Send the headers
-    header("Last-Modified: $last_modified");
-    header("ETag: $etag");
+    doku_header("Last-Modified: $last_modified");
+    doku_header("ETag: $etag");
     // See if the client has provided the required headers
     $if_modified_since = $INPUT->server->filter('stripslashes')->str('HTTP_IF_MODIFIED_SINCE', false);
     $if_none_match = $INPUT->server->filter('stripslashes')->str('HTTP_IF_NONE_MATCH', false);
@@ -49,7 +49,7 @@ function http_conditionalRequest($timestamp)
     }
 
     // Nothing has changed since their last request - serve a 304 and exit
-    header('HTTP/1.0 304 Not Modified');
+    doku_header('HTTP/1.0 304 Not Modified');
 
     // don't produce output, even if compression is on
     @ob_end_clean();
@@ -60,7 +60,7 @@ function http_conditionalRequest($timestamp)
  * Let the webserver send the given file via x-sendfile method
  *
  * @param string $file absolute path of file to send
- * @returns  void or exits with previous header() commands executed
+ * @returns  void or exits with previous doku_header() commands executed
  * @author Chris Smith <chris@jalakai.co.uk>
  *
  */
@@ -70,17 +70,17 @@ function http_sendfile($file)
 
     //use x-sendfile header to pass the delivery to compatible web servers
     if ($conf['xsendfile'] == 1) {
-        header("X-LIGHTTPD-send-file: $file");
+        doku_header("X-LIGHTTPD-send-file: $file");
         ob_end_clean();
         doku_end_request();
     } elseif ($conf['xsendfile'] == 2) {
-        header("X-Sendfile: $file");
+        doku_header("X-Sendfile: $file");
         ob_end_clean();
         doku_end_request();
     } elseif ($conf['xsendfile'] == 3) {
         // FS#2388 nginx just needs the relative path.
         $file = DOKU_REL . substr($file, strlen(fullpath(DOKU_INC)) + 1);
-        header("X-Accel-Redirect: $file");
+        doku_header("X-Accel-Redirect: $file");
         ob_end_clean();
         doku_end_request();
     }
@@ -104,7 +104,7 @@ function http_rangeRequest($fh, $size, $mime)
     $ranges = [];
     $isrange = false;
 
-    header('Accept-Ranges: bytes');
+    doku_header('Accept-Ranges: bytes');
 
     if (!$INPUT->server->has('HTTP_RANGE')) {
         // no range requested - send the whole file
@@ -124,7 +124,7 @@ function http_rangeRequest($fh, $size, $mime)
                 $end = (int)$p[1];
                 if (!$end) $end = $size - 1;
                 if ($start > $end || $start > $size || $end > $size) {
-                    header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                    doku_header('HTTP/1.1 416 Requested Range Not Satisfiable');
                     echo 'Bad Range Request!';
                     doku_end_request();
                 }
@@ -137,13 +137,13 @@ function http_rangeRequest($fh, $size, $mime)
 
     // now send the type and length headers
     if (!$isrange) {
-        header("Content-Type: $mime", true);
+        doku_header("Content-Type: $mime", true);
     } else {
-        header('HTTP/1.1 206 Partial Content');
+        doku_header('HTTP/1.1 206 Partial Content');
         if ($parts == 1) {
-            header("Content-Type: $mime", true);
+            doku_header("Content-Type: $mime", true);
         } else {
-            header('Content-Type: multipart/byteranges; boundary=' . HTTP_MULTIPART_BOUNDARY, true);
+            doku_header('Content-Type: multipart/byteranges; boundary=' . HTTP_MULTIPART_BOUNDARY, true);
         }
     }
 
@@ -158,9 +158,9 @@ function http_rangeRequest($fh, $size, $mime)
             echo "Content-Range: bytes $start-$end/$size" . HTTP_HEADER_LF;
             echo HTTP_HEADER_LF;
         } else {
-            header("Content-Length: $len");
+            doku_header("Content-Length: $len");
             if ($isrange) {
-                header("Content-Range: bytes $start-$end/$size");
+                doku_header("Content-Range: bytes $start-$end/$size");
             }
         }
 
@@ -223,16 +223,16 @@ function http_cached($cache, $cache_ok)
 
     // check cache age & handle conditional request
     // since the resource files are timestamped, we can use a long max age: 1 year
-    header('Cache-Control: public, max-age=31536000');
-    header('Pragma: public');
+    doku_header('Cache-Control: public, max-age=31536000');
+    doku_header('Pragma: public');
     if ($cache_ok) {
         http_conditionalRequest(filemtime($cache));
-        if ($conf['allowdebug']) header("X-CacheUsed: $cache");
+        if ($conf['allowdebug']) doku_header("X-CacheUsed: $cache");
 
         // finally send output
         if ($conf['gzip_output'] && http_gzip_valid($cache)) {
-            header('Vary: Accept-Encoding');
-            header('Content-Encoding: gzip');
+            doku_header('Vary: Accept-Encoding');
+            doku_header('Content-Encoding: gzip');
             readfile($cache . ".gz");
         } else {
             http_sendfile($cache);
@@ -260,8 +260,8 @@ function http_cached_finish($file, $content)
 
     // finally send output
     if ($conf['gzip_output'] && DOKU_HAS_GZIP) {
-        header('Vary: Accept-Encoding');
-        header('Content-Encoding: gzip');
+        doku_header('Vary: Accept-Encoding');
+        doku_header('Content-Encoding: gzip');
         echo gzencode($content, 9, FORCE_GZIP);
     } else {
         echo $content;
@@ -340,10 +340,10 @@ function http_status($code = 200, $text = '')
     $server_protocol = $INPUT->server->str('SERVER_PROTOCOL', false);
 
     if (str_starts_with(PHP_SAPI, 'cgi') || defined('SIMPLE_TEST')) {
-        header("Status: {$code} {$text}", true);
+        doku_header("Status: {$code} {$text}", true);
     } elseif ($server_protocol == 'HTTP/1.1' || $server_protocol == 'HTTP/1.0') {
-        header($server_protocol . " {$code} {$text}", true, $code);
+        doku_header($server_protocol . " {$code} {$text}", true, $code);
     } else {
-        header("HTTP/1.1 {$code} {$text}", true, $code);
+        doku_header("HTTP/1.1 {$code} {$text}", true, $code);
     }
 }

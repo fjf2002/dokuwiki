@@ -36,9 +36,9 @@ class Doku_Renderer_code extends Doku_Renderer
         }
 
         if ($this->_codeblock == $INPUT->str('codeblock')) {
-            header("Content-Type: text/plain; charset=utf-8");
-            header("Content-Disposition: attachment; filename=$filename");
-            header("X-Robots-Tag: noindex");
+            doku_header("Content-Type: text/plain; charset=utf-8");
+            doku_header("Content-Disposition: attachment; filename=$filename");
+            doku_header("X-Robots-Tag: noindex");
             echo trim($text, "\r\n");
             doku_end_request();
         }

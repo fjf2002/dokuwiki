@@ -5,8 +5,8 @@ require_once(DOKU_INC . 'inc/init.php');
 init_request();
 //close session
 session_write_close();
-header('Content-Type: text/html; charset=utf-8');
-header('X-UA-Compatible: IE=edge,chrome=1');
+doku_header('Content-Type: text/html; charset=utf-8');
+doku_header('X-UA-Compatible: IE=edge,chrome=1');
 
 /** @var admin_plugin_styling $plugin */
 $plugin = plugin_load('admin', 'styling');

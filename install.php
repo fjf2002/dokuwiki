@@ -42,7 +42,7 @@ if ($LC && $LC != 'en') {
 $error = [];
 
 // begin output
-header('Content-Type: text/html; charset=utf-8');
+doku_header('Content-Type: text/html; charset=utf-8');
 ?>
     <!DOCTYPE html>
     <html lang="<?php echo $LC ?>" dir="<?php echo $lang['direction'] ?>">

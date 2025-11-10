@@ -18,6 +18,14 @@ if (!function_exists('doku_end_request')) {
     }
 }
 
+// use plain old PHP header() function if no dedicated doku_header() implementation is available
+if (!function_exists('doku_header')) {
+    function doku_header(string $header, bool $replace = true, int $response_code = 0): void {
+        header($header, $replace, $response_code);
+    }
+}
+
+
 // FJF - timing won't work with workers
 
 /**
@@ -590,7 +598,7 @@ function init_request(bool $noSession = false) {
     global $INPUT, $conf, $ACT;
 
     // avoid caching issues #1594
-    header('Vary: Cookie');
+    doku_header('Vary: Cookie');
 
     // input handle class
     $INPUT = new Input();

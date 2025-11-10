@@ -44,7 +44,7 @@ class Doku_Renderer_xhtmlsummary extends Doku_Renderer_xhtml
      * @param int $pos
      * @param false $returnonly
      */
-    public function header($text, $level, $pos, $returnonly = false)
+    public function doku_header($text, $level, $pos, $returnonly = false)
     {
         if (!$this->sum_pageTitle) {
             $this->info['sum_pagetitle'] = $text;

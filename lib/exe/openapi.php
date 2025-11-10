@@ -8,7 +8,7 @@ init_request();
 global $INPUT;
 
 if ($INPUT->has('spec')) {
-    header('Content-Type: application/json');
+    doku_header('Content-Type: application/json');
     $apigen = new OpenAPIGenerator();
     echo $apigen->generate();
     doku_end_request();

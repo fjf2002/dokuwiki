@@ -33,7 +33,7 @@ function sendFile($file, $mime, $dl, $cache, $public = false, $orig = null, $csp
 {
     global $conf;
     // send mime headers
-    header("Content-Type: $mime");
+    doku_header("Content-Type: $mime");
 
     // send security policy if given
     if (!empty($csp)) Headers::contentSecurityPolicy($csp);
@@ -54,17 +54,17 @@ function sendFile($file, $mime, $dl, $cache, $public = false, $orig = null, $csp
     if ($maxage) {
         if ($public) {
             // cache publically
-            header('Expires: ' . gmdate("D, d M Y H:i:s", $expires) . ' GMT');
-            header('Cache-Control: public, proxy-revalidate, no-transform, max-age=' . $maxage);
+            doku_header('Expires: ' . gmdate("D, d M Y H:i:s", $expires) . ' GMT');
+            doku_header('Cache-Control: public, proxy-revalidate, no-transform, max-age=' . $maxage);
         } else {
             // cache in browser
-            header('Expires: ' . gmdate("D, d M Y H:i:s", $expires) . ' GMT');
-            header('Cache-Control: private, no-transform, max-age=' . $maxage);
+            doku_header('Expires: ' . gmdate("D, d M Y H:i:s", $expires) . ' GMT');
+            doku_header('Cache-Control: private, no-transform, max-age=' . $maxage);
         }
     } else {
         // no cache at all
-        header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
-        header('Cache-Control: no-cache, no-transform');
+        doku_header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+        doku_header('Cache-Control: no-cache, no-transform');
     }
 
     //send important headers first, script stops here if '304 Not Modified' response
@@ -78,12 +78,12 @@ function sendFile($file, $mime, $dl, $cache, $public = false, $orig = null, $csp
 
     //download or display?
     if ($dl) {
-        header('Content-Disposition: attachment;' . rfc2231_encode(
+        doku_header('Content-Disposition: attachment;' . rfc2231_encode(
             'filename',
             PhpString::basename($orig)
         ) . ';');
     } else {
-        header('Content-Disposition: inline;' . rfc2231_encode(
+        doku_header('Content-Disposition: inline;' . rfc2231_encode(
             'filename',
             PhpString::basename($orig)
         ) . ';');
@@ -111,8 +111,8 @@ function sendFile($file, $mime, $dl, $cache, $public = false, $orig = null, $csp
  * There is no additional checking, just the encoding and setting the key=value for usage in headers
  *
  * @author Gerry Weissbach <gerry.w@gammaproduction.de>
- * @param string $name      name of the field to be set in the header() call
- * @param string $value     value of the field to be set in the header() call
+ * @param string $name      name of the field to be set in the doku_header() call
+ * @param string $value     value of the field to be set in the doku_header() call
  * @param string $charset   used charset for the encoding of value
  * @param string $lang      language used.
  * @return string           in the format " name=value" for values WITHOUT special characters

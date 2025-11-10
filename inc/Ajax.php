@@ -117,7 +117,7 @@ class Ajax
             [], // no urls
         ];
 
-        header('Content-Type: application/x-suggestions+json');
+        doku_header('Content-Type: application/x-suggestions+json');
         echo json_encode($suggestions, JSON_THROW_ON_ERROR);
     }
 
@@ -311,7 +311,7 @@ class Ajax
             $result = ['error' => $error, 'ns' => $NS];
         }
 
-        header('Content-Type: application/json');
+        doku_header('Content-Type: application/json');
         echo json_encode($result, JSON_THROW_ON_ERROR);
     }
 

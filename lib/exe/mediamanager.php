@@ -127,6 +127,6 @@ if ($DEL) {
 // finished - start output
 
 if (!$fullscreen) {
-    header('Content-Type: text/html; charset=utf-8');
+    doku_header('Content-Type: text/html; charset=utf-8');
     include(template('mediamanager.php'));
 }

@@ -50,8 +50,8 @@ class Sitemap extends AbstractAction
 
         if (is_readable($sitemap)) {
             // Send headers
-            header('Content-Type: ' . $mime);
-            header('Content-Disposition: attachment; filename=' . PhpString::basename($sitemap));
+            doku_header('Content-Type: ' . $mime);
+            doku_header('Content-Disposition: attachment; filename=' . PhpString::basename($sitemap));
 
             http_conditionalRequest(filemtime($sitemap));
 

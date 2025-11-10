@@ -201,21 +201,21 @@ abstract class FeedCreator extends HtmlDescribable
         // attention, heavily-commented-out-area
 
         // maybe use this in addition to file time checking
-        //header("Expires: ".date("r",time()+$this->_timeout));
+        //doku_header("Expires: ".date("r",time()+$this->_timeout));
 
         /* no caching at all, doesn't seem to work as good:
-         header("Cache-Control: no-cache");
-        header("Pragma: no-cache");
+         doku_header("Cache-Control: no-cache");
+        doku_header("Pragma: no-cache");
         */
 
         // HTTP redirect, some feed readers' simple HTTP implementations don't follow it
-        //header("Location: ".$filename);
+        //doku_header("Location: ".$filename);
 
-        header("Content-Type: ".$this->contentType."; charset=".$this->encoding."; filename=".basename($filename));
+        doku_header("Content-Type: ".$this->contentType."; charset=".$this->encoding."; filename=".basename($filename));
         if (preg_match('/\.(kml|gpx)$/', $filename)) {
-            header("Content-Disposition: attachment; filename=".basename($filename));
+            doku_header("Content-Disposition: attachment; filename=".basename($filename));
         } else {
-            header("Content-Disposition: inline; filename=".basename($filename));
+            doku_header("Content-Disposition: inline; filename=".basename($filename));
         }
         readfile($filename);
         doku_end_request();

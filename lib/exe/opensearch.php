@@ -26,7 +26,7 @@ if (file_exists(DOKU_INC . 'favicon.ico')) {
 }
 
 // output
-header('Content-Type: application/opensearchdescription+xml; charset=utf-8');
+doku_header('Content-Type: application/opensearchdescription+xml; charset=utf-8');
 echo '<?xml version="1.0"?>' . NL;
 echo '<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">' . NL;
 echo '  <ShortName>' . hsc($conf['title']) . '</ShortName>' . NL;

@@ -36,7 +36,7 @@ class Server
     {
         if (!$data) {
             if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
-                header('Content-Type: text/plain'); // merged from WP #9093
+                doku_header('Content-Type: text/plain'); // merged from WP #9093
                 throw new ServerException('XML-RPC server accepts POST requests only.');
             }
 
@@ -119,10 +119,10 @@ EOD;
     {
         $xml = '<?xml version="1.0"?>' . "\n" . $xml;
         $length = strlen($xml);
-        header('Connection: close');
-        header('Content-Length: ' . $length);
-        header('Content-Type: text/xml');
-        header('Date: ' . date('r'));
+        doku_header('Connection: close');
+        doku_header('Content-Length: ' . $length);
+        doku_header('Content-Type: text/xml');
+        doku_header('Date: ' . date('r'));
         echo $xml;
         doku_end_request();
     }

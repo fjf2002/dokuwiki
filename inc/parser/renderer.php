@@ -197,7 +197,7 @@ abstract class Doku_Renderer extends Plugin
      * @param int $level header level
      * @param int $pos byte position in the original source
      */
-    public function header($text, $level, $pos)
+    public function doku_header($text, $level, $pos)
     {
     }
 

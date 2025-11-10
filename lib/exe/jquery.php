@@ -8,5 +8,5 @@ init_request(noSession: true); // we do not use a session or authentication here
 require_once(DOKU_INC . 'inc/jquery.php');
 
 // MAIN
-header('Content-Type: application/javascript; charset=utf-8');
+doku_header('Content-Type: application/javascript; charset=utf-8');
 jquery_out();

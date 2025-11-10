@@ -106,7 +106,7 @@ class Export extends AbstractAction
 
         if (!empty($data['output'])) {
             if (is_array($data['headers'])) foreach ($data['headers'] as $key => $val) {
-                header("$key: $val");
+                doku_header("$key: $val");
             }
             echo $pre . $data['output'] . $post;
             doku_end_request();

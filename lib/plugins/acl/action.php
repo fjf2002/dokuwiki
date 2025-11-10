@@ -60,7 +60,7 @@ class action_plugin_acl extends ActionPlugin
         $acl->handle();
 
         $ajax = $INPUT->str('ajax');
-        header('Content-Type: text/html; charset=utf-8');
+        doku_header('Content-Type: text/html; charset=utf-8');
 
         if ($ajax == 'info') {
             $acl->printInfo();

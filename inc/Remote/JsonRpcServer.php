@@ -37,11 +37,11 @@ class JsonRpcServer
             throw new RemoteException("JSON-RPC server not enabled.", -32605);
         }
         if (!empty($conf['remotecors'])) {
-            header('Access-Control-Allow-Origin: ' . $conf['remotecors']);
+            doku_header('Access-Control-Allow-Origin: ' . $conf['remotecors']);
         }
         if ($INPUT->server->str('REQUEST_METHOD') !== 'POST') {
             http_status(405);
-            header('Allow: POST');
+            doku_header('Allow: POST');
             throw new RemoteException("JSON-RPC server only accepts POST requests.", -32606);
         }
         [$contentType] = explode(';', $INPUT->server->str('CONTENT_TYPE'), 2); // ignore charset

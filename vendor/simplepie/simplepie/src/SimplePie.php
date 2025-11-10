@@ -1980,7 +1980,7 @@ class SimplePie
             } else {
                 $header .= ' charset=UTF-8';
             }
-            header($header);
+            doku_header($header);
         }
     }
 

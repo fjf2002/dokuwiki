@@ -1029,10 +1029,10 @@ class admin_plugin_usermanager extends AdminPlugin
         // ==============================================================================================
         // GENERATE OUTPUT
         // normal headers for downloading...
-        header('Content-type: text/csv;charset=utf-8');
-        header('Content-Disposition: attachment; filename="wikiusers.csv"');
+        doku_header('Content-type: text/csv;charset=utf-8');
+        doku_header('Content-Disposition: attachment; filename="wikiusers.csv"');
 #       // for debugging assistance, send as text plain to the browser
-#       header('Content-type: text/plain;charset=utf-8');
+#       doku_header('Content-type: text/plain;charset=utf-8');
 
         // output the csv
         $fd = fopen('php://output', 'w');
@@ -1204,10 +1204,10 @@ class admin_plugin_usermanager extends AdminPlugin
         // ==============================================================================================
         // GENERATE OUTPUT
         // normal headers for downloading...
-        header('Content-type: text/csv;charset=utf-8');
-        header('Content-Disposition: attachment; filename="importfails.csv"');
+        doku_header('Content-type: text/csv;charset=utf-8');
+        doku_header('Content-Disposition: attachment; filename="importfails.csv"');
 #       // for debugging assistance, send as text plain to the browser
-#       header('Content-type: text/plain;charset=utf-8');
+#       doku_header('Content-type: text/plain;charset=utf-8');
 
         // output the csv
         $fd = fopen('php://output', 'w');
