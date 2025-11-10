@@ -1705,8 +1705,9 @@ function tpl_subscribe()
  */
 function tpl_flush()
 {
-    if (ob_get_level() > 0) ob_flush();
-    flush();
+    // FJF - no-op
+    // if (ob_get_level() > 0) ob_flush();
+    // flush();
 }
 
 /**
