@@ -594,7 +594,7 @@ function fullpath($path, $exists = false)
     return $finalpath;
 }
 
-function init_request(bool $noSession = false) {
+function init_request(bool $noSession = false, bool $disableGzipOutput = false) {
     global $INPUT, $conf, $ACT;
 
     // avoid caching issues #1594
@@ -608,7 +608,7 @@ function init_request(bool $noSession = false) {
     $conf['gzip_output'] &= (strpos($httpAcceptEncoding, 'gzip') !== false);
     if (
         $conf['gzip_output'] &&
-            !defined('DOKU_DISABLE_GZIP_OUTPUT') &&
+            !$disableGzipOutput &&
             function_exists('ob_gzhandler') &&
             // Disable compression when a (compressed) sitemap might be delivered
             // See https://bugs.dokuwiki.org/index.php?do=details&task_id=2576

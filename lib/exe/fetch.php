@@ -11,9 +11,8 @@ use dokuwiki\Input\Input;
 use dokuwiki\Extension\Event;
 
 if (!defined('DOKU_INC')) define('DOKU_INC', __DIR__ . '/../../');
-if (!defined('DOKU_DISABLE_GZIP_OUTPUT')) define('DOKU_DISABLE_GZIP_OUTPUT', 1);
 require_once(DOKU_INC . 'inc/init.php');
-init_request();
+init_request(disableGzipOutput: true);
 session_write_close(); //close session
 
 require_once(DOKU_INC . 'inc/fetch.functions.php');
