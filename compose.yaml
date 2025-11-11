@@ -1,14 +1,10 @@
 services:
-  frankenwiki:
-    build: .
+
+  abstract-base:
+    profiles: ['dontuse']
     ports:
       - 8080:8080
-      # - 8443:8443
     volumes:
-      # https://frankenphp.dev/docs/config/
-      - type: bind
-        source: ./Caddyfile
-        target: /etc/frankenphp/Caddyfile
       - type: bind
         source: .
         target: /app/public
@@ -17,6 +13,28 @@ services:
 #     secrets:
 #       - server.crt
 #       - server.key
+
+  phps:
+    extends:
+      service: abstract-base
+    build:
+      context: ./docker-compose/
+      dockerfile: Dockerfile.phps
+
+  frankenphp:
+    extends:
+      service: abstract-base
+    build:
+      context: ./docker-compose/
+      dockerfile: Dockerfile.frankenphp
+
+  openswoole:
+    extends:
+      service: abstract-base
+    build:
+      context: ./docker-compose/
+      dockerfile: Dockerfile.openswoole
+
 
 
 # secrets:
