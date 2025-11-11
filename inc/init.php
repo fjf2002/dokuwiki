@@ -25,6 +25,20 @@ if (!function_exists('doku_header')) {
     }
 }
 
+// use plain old PHP setcookie() function if no dedicated doku_set_cookie() implementation is available.
+// Only second form of parameters is supported, see https://www.php.net/manual/de/function.setcookie.php .
+if (!function_exists('doku_set_cookie')) {
+    function doku_set_cookie(string $name, string $value = "", array $options = []): bool {
+        return setcookie($name, $value, $options);
+    }
+}
+
+if (!function_exists('doku_session_start')) {
+    function doku_session_start(array $options = []): bool {
+        return session_start($options);
+    }
+}
+
 
 // FJF - timing won't work with workers
 
@@ -211,6 +225,12 @@ $local = $conf['lang'];
 Event::createAndTrigger('INIT_LANG_LOAD', $local, 'init_lang', true);
 
 
+// FJF store initial configuration
+global $initialConf;
+$initialConf = $conf;
+
+
+
 /**
  * Initializes the session
  *
@@ -237,7 +257,7 @@ function init_session()
         unset($_COOKIE[DOKU_SESSION_NAME]);
     }
 
-    session_start();
+    doku_session_start();
 }
 
 
@@ -595,7 +615,7 @@ function fullpath($path, $exists = false)
 }
 
 function init_request(bool $noSession = false, bool $disableGzipOutput = false) {
-    global $INPUT, $conf, $ACT;
+    global $INPUT, $conf, $initialConf, $ACT;
 
     // avoid caching issues #1594
     doku_header('Vary: Cookie');
@@ -651,4 +671,8 @@ function init_request(bool $noSession = false, bool $disableGzipOutput = false) 
 
     $nil = null;
     Event::createAndTrigger('DOKUWIKI_INIT_DONE', $nil, null, false);
+
+    // FJF the cmsmode plugin disables all actions in the $conf.
+    // So re-set the $conf here:
+    $conf = $initialConf;
 }

@@ -1124,7 +1124,7 @@ class admin_plugin_usermanager extends AdminPlugin
 
         // save import failures into the session
         if (!headers_sent()) {
-            session_start();
+            doku_session_start();
             $_SESSION['import_failures'] = $this->import_failures;
             session_write_close();
         }

@@ -1820,7 +1820,7 @@ function send_redirect($url)
     global $MSG;
     if (isset($MSG) && count($MSG) /* FJF unsolved: && !defined('SESSION')*/) {
         //reopen session, store data and close session again
-        @session_start();
+        doku_session_start();
         $_SESSION[DOKU_COOKIE]['msg'] = $MSG;
     }
 
@@ -1954,7 +1954,7 @@ function set_doku_pref($pref, $val)
     if (defined('DOKU_UNITTEST')) {
         $_COOKIE['DOKU_PREFS'] = $cookieVal;
     } else {
-        setcookie('DOKU_PREFS', $cookieVal, [
+        doku_set_cookie('DOKU_PREFS', $cookieVal, [
             'expires' => time() + 365 * 24 * 3600,
             'path' => $cookieDir,
             'secure' => ($conf['securecookie'] && Ip::isSsl()),

@@ -519,7 +519,7 @@ function auth_logoff($keepbc = false)
     global $INPUT;
 
     // make sure the session is writable (it usually is)
-    @session_start();
+    doku_session_start();
 
     if (isset($_SESSION[DOKU_COOKIE]['auth']['user']))
         unset($_SESSION[DOKU_COOKIE]['auth']['user']);
@@ -533,7 +533,7 @@ function auth_logoff($keepbc = false)
     $USERINFO = null; //FIXME
 
     $cookieDir = empty($conf['cookiedir']) ? DOKU_REL : $conf['cookiedir'];
-    setcookie(DOKU_COOKIE, '', [
+    doku_set_cookie(DOKU_COOKIE, '', [
         'expires' => time() - 600000,
         'path' => $cookieDir,
         'secure' => ($conf['securecookie'] && \dokuwiki\Ip::isSsl()),
@@ -1138,7 +1138,7 @@ function updateprofile()
         auth_setCookie($INPUT->server->str('REMOTE_USER'), $pass, (bool) $sticky);
     } else {
         // make sure the session is writable
-        @session_start();
+        doku_session_start();
         // invalidate session cache
         $_SESSION[DOKU_COOKIE]['auth']['time'] = 0;
         session_write_close();
@@ -1399,7 +1399,7 @@ function auth_setCookie($user, $pass, $sticky)
     $cookie    = base64_encode($user) . '|' . ((int) $sticky) . '|' . base64_encode($pass);
     $cookieDir = empty($conf['cookiedir']) ? DOKU_REL : $conf['cookiedir'];
     $time      = $sticky ? (time() + 60 * 60 * 24 * 365) : 0; //one year
-    setcookie(DOKU_COOKIE, $cookie, [
+    doku_set_cookie(DOKU_COOKIE, $cookie, [
         'expires' => $time,
         'path' => $cookieDir,
         'secure' => ($conf['securecookie'] && \dokuwiki\Ip::isSsl()),

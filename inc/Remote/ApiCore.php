@@ -141,7 +141,7 @@ class ApiCore
         if (!$conf['useacl']) return 0;
         if (!$auth instanceof AuthPlugin) return 0;
 
-        @session_start(); // reopen session for login
+        doku_session_start(); // reopen session for login
         $ok = null;
         if ($auth->canDo('external')) {
             $ok = $auth->trustExternal($user, $pass, false);
