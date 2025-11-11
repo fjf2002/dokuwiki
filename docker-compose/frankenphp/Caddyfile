@@ -15,7 +15,7 @@
 # :8443 {
 # 	tls /run/secrets/server.crt /run/secrets/server.key
 
-:8080 {
+:{$LISTEN_PORT} {
 	root .
 
 	php_server {

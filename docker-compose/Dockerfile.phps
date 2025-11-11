@@ -35,4 +35,4 @@ EOF
 
 # Runtime configuration
 WORKDIR "/app/public"
-CMD ["php", "-S", "0.0.0.0:8080"]
+CMD ["sh", "-c", "php -S 0.0.0.0:$LISTEN_PORT"]

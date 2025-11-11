@@ -1,39 +1,51 @@
-services:
-
-  abstract-base:
-    profiles: ['dontuse']
-    ports:
-      - 8080:8080
-    volumes:
-      - type: bind
-        source: .
-        target: /app/public
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+x-abstract-base-service: &x-abstract-base-service
+  build: &x-abstract-base-service-build
+    context: ./docker-compose/
+  environment: &x-abstract-base-service-environment
+    EXTERNAL_DNS_SERVER_NAME: ${EXTERNAL_DNS_SERVER_NAME}
+  volumes:
+    - type: bind
+      source: .
+      target: /app/public
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
 #     secrets:
 #       - server.crt
 #       - server.key
 
+services:
   phps:
-    extends:
-      service: abstract-base
+    <<: *x-abstract-base-service
     build:
-      context: ./docker-compose/
+      <<: *x-abstract-base-service-build
       dockerfile: Dockerfile.phps
+    ports:
+      - 8080:8080
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8080
 
   frankenphp:
-    extends:
-      service: abstract-base
+    <<: *x-abstract-base-service
     build:
-      context: ./docker-compose/
+      <<: *x-abstract-base-service-build
       dockerfile: Dockerfile.frankenphp
+    ports:
+      - 8081:8081
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8081
 
   openswoole:
-    extends:
-      service: abstract-base
+    <<: *x-abstract-base-service
     build:
-      context: ./docker-compose/
+      <<: *x-abstract-base-service-build
       dockerfile: Dockerfile.openswoole
+    ports:
+      - 8082:8082
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8082
 
 
 
