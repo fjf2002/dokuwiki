@@ -104,6 +104,8 @@ if ($DATE_AT) {
 //make infos about the selected page available
 $INFO = pageinfo();
 
+global $conf;
+
 // handle debugging
 if ($conf['allowdebug'] && $ACT == 'debug') {
     html_debug();
