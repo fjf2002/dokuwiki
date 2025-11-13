@@ -1,11 +1,11 @@
 # syntax = devthefuture/dockerfile-x
 FROM dunglas/frankenphp
 
-INCLUDE Dockerfile.common
+INCLUDE common.dockerfile
 
 # https://frankenphp.dev/docs/docker/
 RUN install-php-extensions \
-	xdebug \
+	#xdebug \
     intl
 
 COPY ./frankenphp/Caddyfile /etc/frankenphp/Caddyfile

@@ -3,6 +3,9 @@ x-abstract-base-service: &x-abstract-base-service
     context: ./docker-compose/
   environment: &x-abstract-base-service-environment
     EXTERNAL_DNS_SERVER_NAME: ${EXTERNAL_DNS_SERVER_NAME}
+  # You should set this to your personal user id,
+  # or else dokuwiki creates files with the user that is used to run the container, which is often root.
+  user: 1000:1000
   volumes:
     - type: bind
       source: .
@@ -13,12 +16,73 @@ x-abstract-base-service: &x-abstract-base-service
 #       - server.crt
 #       - server.key
 
+
 services:
+
+  caddy-php-fpm:
+    <<: *x-abstract-base-service
+    build:
+      <<: *x-abstract-base-service-build
+      dockerfile: caddy-php-fpm.dockerfile
+    ports:
+      - 8076:80
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8076
+    depends_on:
+      - php-fpm
+
+  nginx-php-fpm.nginx:
+    <<: *x-abstract-base-service
+    build:
+      <<: *x-abstract-base-service-build
+      dockerfile: nginx-php-fpm.nginx.dockerfile
+    ports:
+      - 8077:80
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8077
+    depends_on:
+      - php-fpm
+    tmpfs:
+      - /var/cache/nginx:mode=1770,uid=1000,gid=1000
+      - /var/run:mode=1770,uid=1000,gid=1000
+
+  apache-php-fpm.apache:
+    <<: *x-abstract-base-service
+    build:
+      <<: *x-abstract-base-service-build
+      dockerfile: apache-php-fpm.apache.dockerfile
+    ports:
+      - 8078:80
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8078
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    <<: *x-abstract-base-service
+    build:
+      <<: *x-abstract-base-service-build
+      dockerfile: php-fpm.dockerfile
+
+  apache-mod-php:
+    <<: *x-abstract-base-service
+    build:
+      <<: *x-abstract-base-service-build
+      dockerfile: apache-mod-php.dockerfile
+    ports:
+      - 8079:80
+    environment:
+      <<: *x-abstract-base-service-environment
+      LISTEN_PORT: 8079
+
   phps:
     <<: *x-abstract-base-service
     build:
       <<: *x-abstract-base-service-build
-      dockerfile: Dockerfile.phps
+      dockerfile: phps.dockerfile
     ports:
       - 8080:8080
     environment:
@@ -29,7 +93,7 @@ services:
     <<: *x-abstract-base-service
     build:
       <<: *x-abstract-base-service-build
-      dockerfile: Dockerfile.frankenphp
+      dockerfile: frankenphp.dockerfile
     ports:
       - 8081:8081
     environment:
@@ -40,7 +104,7 @@ services:
     <<: *x-abstract-base-service
     build:
       <<: *x-abstract-base-service-build
-      dockerfile: Dockerfile.openswoole
+      dockerfile: openswoole.dockerfile
     ports:
       - 8082:8082
     environment:

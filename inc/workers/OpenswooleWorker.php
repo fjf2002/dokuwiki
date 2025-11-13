@@ -208,7 +208,7 @@ class OpenswooleWorker extends AbstractWorker {
         // https://openswoole.com/article/isolating-variables-with-coroutine-context
         $server->set([
             'enable_coroutine' => false,
-            'worker_num' => 1
+            'worker_num' => 20
         ]);
 
         $server->on('WorkerStart', function($server, $workerId) use (&$conf){

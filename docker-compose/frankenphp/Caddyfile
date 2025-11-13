@@ -23,7 +23,7 @@
 
 		worker {
 			file /app/public/frankenphp_worker.php
-			num 1
+			num 20
 			watch
 			match *.php
 		}

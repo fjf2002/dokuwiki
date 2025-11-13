@@ -1,11 +1,11 @@
-##################################################
-# Install proxy cert
-##################################################
-RUN apt-get update
-RUN apt-get install -y wget ca-certificates
+###########################################
+# Install BYBN certificates.
+# Works with alpine and debian.
+###########################################
+
 
 RUN <<EOF
-set -euo pipefail
+set -eux
 
 #######################
 # BYBN PROXY CERT
@@ -41,8 +41,21 @@ dPNATG4CFcpMViBlIr6FjNC3gM+5tN0x2L02ED2ZHxcfDOnvFYjDwqIROMRFCXHV
 IclhB9z5OJyKz4tKOZEw1s3G8ayI+Jk39kgx6D71E7FDoLYmKImMwdEqrXKf3uuj
 XHHs7veExP7Lfj4O9pyCP1KpPVz3InaCDR0Q9gu3FYG2apNw
 -----END CERTIFICATE-----"
+
+# yes, this works for both alpine and debian:
 mkdir -p /usr/local/share/ca-certificates/
 echo "$BYBN_PROXY_CERT" > /usr/local/share/ca-certificates/bayernwebgatewayca.crt
+# temporarily neccessary for apk add
+echo "$BYBN_PROXY_CERT" >> /etc/ssl/certs/ca-certificates.crt
+
+
+if which apt-get; then
+    apt-get update
+    apt-get install -y wget ca-certificates
+    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
+elif which apk; then
+    apk add --no-cache wget
+fi
 
 
 #######################
